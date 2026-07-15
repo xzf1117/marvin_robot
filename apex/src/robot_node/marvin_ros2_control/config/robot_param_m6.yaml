@@ -1,0 +1,29 @@
+/**:
+  ros__parameters:
+    robot_ip: 192.168.1.190
+    control_rate: 500
+    left_joints:
+      - Joint1_L
+      - Joint2_L
+      - Joint3_L
+      - Joint4_L
+      - Joint5_L
+      - Joint6_L
+      - Joint7_L
+    right_joints:
+      - Joint1_R
+      - Joint2_R
+      - Joint3_R
+      - Joint4_R
+      - Joint5_R
+      - Joint6_R
+      - Joint7_R
+    
+    left_kd:
+      k: [6.0,6.0,6.0,6.0,6.0,6.0,6.0]
+      d: [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+    right_kd:
+      k: [6.0,6.0,6.0,6.0,6.0,6.0,6.0]
+      d: [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+    left_tool: [0.6, 0.0, 0.0, 50.0, 0.004, 0.0, 0.0, 0.004, 0.0, 0.03]
+    right_tool: [0.6, 0.0, 0.0, 50.0, 0.004, 0.0, 0.0, 0.004, 0.0, 0.03]

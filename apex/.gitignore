@@ -1,0 +1,33 @@
+# ROS / colcon generated
+build/
+install/
+log/
+
+# Runtime output / bags
+out/
+*.db3
+*.bag
+*.mcap
+metadata.yaml
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Local ROS/user state
+.ros/
+*.log
+
+# Local copied runtime
+external/realsense_runtime/
+
+# Secrets / machine identity
+tpm&uid/
+
+# Editor / Codex local
+.vscode/
+.idea/
+.codex/
+.codex
+.codex/

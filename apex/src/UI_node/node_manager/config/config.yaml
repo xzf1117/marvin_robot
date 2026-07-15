@@ -1,0 +1,13 @@
+# ROS2 Bag录制节点配置文件
+# 配置simple_bag_recorder节点的参数
+
+simple_bag_recorder:
+  ros__parameters:
+    # 录制bags文件的存储目录路径 (这个会被launch.py覆盖)
+    # record_bags_storage_dir: "/home/hanwen/pyq_files/UI/bags_convert/ros2bags2/"
+    
+    # 这些参数不会被覆盖，保持YAML中的值
+    # max_bag_size: "500MB"
+    # recording_format: "sqlite3"
+    # auto_split_bags: true
+    # buffer_size: 1000 

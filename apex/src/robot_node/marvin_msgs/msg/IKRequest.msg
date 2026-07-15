@@ -1,0 +1,9 @@
+std_msgs/Header header
+geometry_msgs/Pose left_hand_pose
+geometry_msgs/Pose right_hand_pose
+geometry_msgs/Pose left_elbow_pose
+geometry_msgs/Pose right_elbow_pose
+geometry_msgs/Pose torso_pose
+geometry_msgs/Pose head_pose
+bool[6] available
+sensor_msgs/JointState joint_state

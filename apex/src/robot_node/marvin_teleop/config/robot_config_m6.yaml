@@ -1,0 +1,72 @@
+active_links:
+  ["Link1_L", "Link2_L", "Link3_L", "Link4_L", "Link5_L", "Link6_L", "Link7_L",
+   "Link1_R", "Link2_R", "Link3_R", "Link4_R", "Link5_R", "Link6_R", "Link7_R"]
+default_pose:
+  [1.57, -1.0, 0.0, -1.0, 0.0, 0.0, 0.0, -1.57, -1.0, 0.0, -1.0, 0.0, 0.0, 0.0]
+geometry:
+  marvin_collision:
+    spheres:
+  
+        base_link:
+        - center: [0.0, -0.0, 0.5]
+          radius: 0.10
+        - center: [0.0, -0.0, 0.4]
+          radius: 0.10
+        - center: [0.0, -0.0, 0.3]
+          radius: 0.10
+        - center: [0.0, -0.0, 0.2]
+          radius: 0.12
+        - center: [0.0, -0.0, 0.1]
+          radius: 0.12
+        - center: [0.0, -0.0, 0.0]
+          radius: 0.12
+        - center: [0.0, -0.0, -0.1]
+          radius: 0.12
+        - center: [0.0, -0.0, -0.2]
+          radius: 0.12
+        - center: [0.0, -0.0, -0.3]
+          radius: 0.12
+        Link4_L:
+        - center: [0, 0, 0.0]
+          radius: 0.07
+        Link4_R:
+        - center: [0, 0, 0.0]
+          radius: 0.07
+
+        Link5_L:
+        - center: [0, 0, -0.10]
+          radius: 0.06
+        - center: [0, 0, -0.15]
+          radius: 0.045
+        - center: [0, 0, -0.20]
+          radius: 0.045
+
+        Link5_R:
+        - center: [0, 0, -0.10]
+          radius: 0.06
+        - center: [0, 0, -0.15]
+          radius: 0.045
+        - center: [0, 0, -0.20]
+          radius: 0.045
+
+
+        Link7_R:
+        - center: [0, 0.0, 0.00]
+          radius: 0.07
+        - center: [0, -0.05, 0]
+          radius: 0.05
+        - center: [0, -0.14, 0]
+          radius: 0.08
+        
+
+          
+        Link7_L:
+        - center: [0, 0.0, 0.00]
+          radius: 0.07
+        - center: [0, -0.05, 0]
+          radius: 0.05
+        - center: [0, -0.14, 0]
+          radius: 0.08
+
+
+
