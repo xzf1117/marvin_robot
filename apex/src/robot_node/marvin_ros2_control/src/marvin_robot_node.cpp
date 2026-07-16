@@ -282,32 +282,37 @@ private:
         while (!stop_)
         {
             struct can_frame frameA{}, frameB{};
-            // Read frame from SDK (blocking or non-blocking depending on SDK)
+            bool gotA = false, gotB = false;
+
+            // Read frames from SDK (non-blocking)
             if (sdk_read_canA(frameA))
             {
-                // Write to vcan0
-                if (sock0 >= 0)
-                {
-                    int nbytes = write(sock0, &frameA, sizeof(frameA));
-                    if (nbytes != sizeof(frameA))
-                    {
-                        std::cerr << "[vcan0] Failed to write CAN frame" << std::endl;
-                    }
-                }
+                gotA = true;
             }
-            else if (sdk_read_canB(frameB))
+            if (sdk_read_canB(frameB))
             {
-                // Write to vcan1
-                if (sock1 >= 0)
+                gotB = true;
+            }
+
+            // Write frames to virtual CAN sockets independently
+            if (gotA && sock0 >= 0)
+            {
+                int nbytes = write(sock0, &frameA, sizeof(frameA));
+                if (nbytes != sizeof(frameA))
                 {
-                    int nbytes = write(sock1, &frameB, sizeof(frameB));
-                    if (nbytes != sizeof(frameB))
-                    {
-                        std::cerr << "[vcan1] Failed to write CAN frame" << std::endl;
-                    }
+                    std::cerr << "[vcan0] Failed to write CAN frame" << std::endl;
                 }
             }
-            else
+            if (gotB && sock1 >= 0)
+            {
+                int nbytes = write(sock1, &frameB, sizeof(frameB));
+                if (nbytes != sizeof(frameB))
+                {
+                    std::cerr << "[vcan1] Failed to write CAN frame" << std::endl;
+                }
+            }
+
+            if (!gotA && !gotB)
             {
                 // avoid busy spin if SDK has no data
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -807,7 +812,7 @@ private:
                 // Wait for both arms to confirm they've reached the target mode
                 // This prevents transient mode mismatch from propagating upstream
                 auto mode_start = this->now();
-                const double MODE_CONFIRM_TIMEOUT = 3.0;
+                const double MODE_CONFIRM_TIMEOUT = 5.0;
                 bool arms_confirmed = false;
                 while ((this->now() - mode_start).seconds() < MODE_CONFIRM_TIMEOUT)
                 {

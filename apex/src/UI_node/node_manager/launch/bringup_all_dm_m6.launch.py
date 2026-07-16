@@ -133,8 +133,8 @@ def generate_launch_description():
         # quadcam_launch,
         ui_nodes_launch,
         # all_topic_log_recorder_node,
-        # cam_left_wrist_launch,
-        # cam_right_wrist_launch,
-        # cam_head_launch,
+        cam_left_wrist_launch,
+        cam_right_wrist_launch,
+        cam_head_launch,
     ])
 

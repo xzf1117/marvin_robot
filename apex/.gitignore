@@ -5,6 +5,7 @@ log/
 
 # Runtime output / bags
 out/
+/rosbag2*/
 *.db3
 *.bag
 *.mcap

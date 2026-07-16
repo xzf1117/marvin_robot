@@ -308,30 +308,34 @@ class MotorControl():
         # self.recv()  # receive the data from serial port
 
     def recv(self):
-        # Poll both sockets for incoming frames
-        pass
-        # print("rec")
-        rlist, _, _ = select.select([self.sock0, self.sock1], [], [], 0.1)
+        # Non-blocking poll of both sockets
+        # Using timeout=0 to avoid blocking the 1kHz control loop
+        try:
+            rlist, _, _ = select.select([self.sock0, self.sock1], [], [], 0.0)
+        except Exception as e:
+            print(f"[CAN] select error: {e}")
+            return
+
         for s in rlist:
-            frame_data = s.recv(16)  # CAN frame size: 16 bytes for struct can_frame
+            try:
+                frame_data = s.recv(16)  # CAN frame size: 16 bytes for struct can_frame
+            except BlockingIOError:
+                continue
+            except Exception as e:
+                print(f"[CAN] recv error: {e}")
+                continue
+
             if len(frame_data) == 16:
                 # Unpack can_frame: can_id (4 bytes) + can_dlc (1 byte) + padding (3 bytes) + data (8 bytes)
-                # can_id, can_dlc, data = struct.unpack("<IB3x8s", frame_data)
                 can_id = struct.unpack("<I", frame_data[0:4])[0]
                 packet_data = frame_data[8:16]
-                # CANID = (frame_data[6] << 24) | (frame_data[5] << 16) | (frame_data[4] << 8) | frame_data[3]
-                # packet_data = data[:can_dlc]
-                # error_code = (packet_data[0] & 0xF0) >> 4  # 取高4位，得到错误码
                 # Determine which socket
                 iface = "vcan0" if s == self.sock0 else "vcan1"
 
                 # Process packet
                 CANID = can_id
                 CMD = 0x11
-                # Now packet_data is equivalent to your packet[4:12]
                 self.__process_packet(packet_data, CANID, CMD)
-                # print(f"err code={error_code}")
-                # print(f"[{iface}] CANID=0x{CANID:08X}, CMD={CMD}, Data={packet_data.hex()}")
 
     def recv_set_param_data(self):
         data_recv = self.serial_.read_all()

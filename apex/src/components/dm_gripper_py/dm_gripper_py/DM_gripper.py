@@ -38,10 +38,10 @@ class GripperMotorNode(Node):
         # self.declare_parameter('joint_name_motor2', 'gripperR')
         # self.declare_parameter('use_joint_names', True)
         self.declare_parameter('auto_calibrate', False)
-        self.declare_parameter('Motor1_min_pos', 0.0)
-        self.declare_parameter('Motor1_max_pos', 1.0)
-        self.declare_parameter('Motor2_min_pos', -0.5)
-        self.declare_parameter('Motor2_max_pos', 0.7)
+        self.declare_parameter('Motor1_min_pos', -2.0)
+        self.declare_parameter('Motor1_max_pos', -0.5)
+        self.declare_parameter('Motor2_min_pos', 0.0)
+        self.declare_parameter('Motor2_max_pos', 1.0)
         self.declare_parameter('left_motor_id', 1)
         self.declare_parameter('right_motor_id', 2)
         self.q1 = -2.0
@@ -194,7 +194,6 @@ class GripperMotorNode(Node):
                 MotorControl1.controlMIT(Motor1,  0.0,1.0, 0, -3, 0.0)
                 MotorControl1.controlMIT(Motor2,  0.0,1.0, 0, -3, 0.0)
                 time.sleep(0.005)
-            time.sleep(0.01)
             Motor1_max_pos = Motor1.getPosition()
             Motor2_max_pos = Motor2.getPosition()
             self.get_logger().warn(f'Limits M1[min_pos,max_pos]:[{Motor1_min_pos:.6f},{Motor1_max_pos:.6f}] M2[min_pos,max_pos]:[{Motor2_min_pos:.6f},{Motor2_max_pos:.6f}]')
@@ -209,11 +208,9 @@ class GripperMotorNode(Node):
         if MotorControl1 is None:
             return
         # 限幅
-        Motor1_min_pos = -0.5
-        Motor1_max_pos = -2.0
-        # self.get_logger().info(f"[DEBUG] msg.data={msg.data:.2f}, M1_min={Motor1_min_pos:.2f}, M1_max={Motor1_max_pos:.2f}")
-        self.q1 = self._clamp(np.clip(msg.data, 0.0, 1.0), Motor1_max_pos, Motor1_min_pos)
-        # self.get_logger().info(f"[DEBUG] Final Target self.q1 = {self.q1:.2f}")
+        Motor1_min_pos = -2.0
+        Motor1_max_pos = -0.5
+        self.q1 = self._clamp(np.clip(msg.data, 0.0, 1.0), Motor1_min_pos, Motor1_max_pos)
         # q2 = self._clamp(self.current_desired_pos_m2, Motor2_min_pos, Motor2_max_pos)
         # vel_cmd = int(self.get_parameter('vel_cmd').get_parameter_value().integer_value)
         # i_des = int(self.get_parameter('current_limit').get_parameter_value().integer_value)
