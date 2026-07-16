@@ -32,3 +32,6 @@ tpm&uid/
 .codex/
 .codex
 .codex/
+
+# 忽略 Python 虚拟环境
+apex/vr_env/
