@@ -284,7 +284,7 @@ private:
             struct can_frame frameA{}, frameB{};
             bool gotA = false, gotB = false;
 
-            // Read frames from SDK (non-blocking)
+            // Read frames from SDK independently (both channels are independent SDK functions)
             if (sdk_read_canA(frameA))
             {
                 gotA = true;
@@ -294,7 +294,7 @@ private:
                 gotB = true;
             }
 
-            // Write frames to virtual CAN sockets independently
+            // Write to vcan0 and vcan1 independently — no else-if starvation
             if (gotA && sock0 >= 0)
             {
                 int nbytes = write(sock0, &frameA, sizeof(frameA));

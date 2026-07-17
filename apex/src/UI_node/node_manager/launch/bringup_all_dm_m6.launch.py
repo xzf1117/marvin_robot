@@ -3,6 +3,8 @@ from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
+from launch.actions import TimerAction, ExecuteProcess
+
 import os
 
 from ament_index_python.packages import get_package_share_directory
@@ -19,6 +21,17 @@ def generate_launch_description():
         'use_rviz',
         default_value='true',
         description='Whether to start RViz'
+    )
+
+    # 在 return LaunchDescription([...]) 中添加
+    reset_gripper_timer = TimerAction(
+        period=5.0,  # 等5秒等所有节点就绪
+        actions=[
+            ExecuteProcess(
+                cmd=['ros2', 'service', 'call', '/control/reset_grippers', 'std_srvs/srv/Trigger', '{}'],
+                output='screen'
+            )
+        ]
     )
 
     # ----------------------
@@ -127,14 +140,15 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        reset_gripper_timer,
         declare_use_rviz,
         teleop_launch,
         dm_gripper_launch,
         # quadcam_launch,
         ui_nodes_launch,
         # all_topic_log_recorder_node,
-        cam_left_wrist_launch,
-        cam_right_wrist_launch,
-        cam_head_launch,
+        # cam_left_wrist_launch,
+        # cam_right_wrist_launch,
+        # cam_head_launch,
     ])
 

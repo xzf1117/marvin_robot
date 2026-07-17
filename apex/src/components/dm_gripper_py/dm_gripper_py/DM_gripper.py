@@ -53,7 +53,7 @@ class GripperMotorNode(Node):
         self.have_joint_state = False
         self.left_id = int(self.get_parameter('left_motor_id').get_parameter_value().integer_value)
         self.right_id = int(self.get_parameter('right_motor_id').get_parameter_value().integer_value)
-        self.timer = self.create_timer(0.001, self.control_timer_callback)  # 100 Hz
+        self.timer = self.create_timer(0.002, self.control_timer_callback)  # 100 Hz
         self.reset_service = self.create_service(Trigger, 'control/reset_grippers', self.reset_motors_callback)
         
         # self.publishertoolcomA = self.create_publisher(UInt16MultiArray, "control/tool_com_A", 10)
@@ -277,16 +277,16 @@ def main(args=None):
 
 
     # Use a MultiThreadedExecutor if callbacks might block each other
-    # executor = MultiThreadedExecutor()
-    # executor.add_node(gripper_node)
+    executor = MultiThreadedExecutor()
+    executor.add_node(gripper_node)
 
     try:
-        # executor.spin()
-        rclpy.spin(gripper_node)
+        executor.spin()
+        # rclpy.spin(gripper_node)
     except KeyboardInterrupt:
         pass
     finally:
-        # executor.shutdown()
+        executor.shutdown()
         gripper_node.destroy_node()
         rclpy.shutdown()
 
