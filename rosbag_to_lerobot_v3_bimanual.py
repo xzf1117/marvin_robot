@@ -94,6 +94,14 @@ def convert_bag_to_episode(mcap_file_path, episode_idx):
             left_wrist_images.append((timestamp, decode_ros_image(msg)))
         elif topic == "/camera/cam_right_wrist/color/image_raw":
             right_wrist_images.append((timestamp, decode_ros_image(msg)))
+        
+        # if topic == "/camera/cam_head_launch/color/image_raw/compressed":
+        #     head_images.append((timestamp, decode_ros_image(msg)))
+        # elif topic == "/camera/cam_left_wrist/color/image_raw/compressed":
+        #     left_wrist_images.append((timestamp, decode_ros_image(msg)))
+        # elif topic == "/camera/cam_right_wrist/color/image_raw/compressed":
+        #     right_wrist_images.append((timestamp, decode_ros_image(msg)))
+
         elif topic == "/joint_states":
             joint_states.append((timestamp, np.array(msg.position[:14], dtype=np.float32)))
         elif topic == "/info/gripper_feedback_L":
