@@ -161,4 +161,3 @@ def generate_launch_description():
         cam_right_wrist_launch,
         cam_head_launch,
     ])
-
