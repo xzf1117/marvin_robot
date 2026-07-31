@@ -1,0 +1,12 @@
+sudo modprobe vcan
+sudo ip link add dev vcan0 type vcan 2>/dev/null || true
+sudo ip link add dev vcan1 type vcan 2>/dev/null || true
+sudo ip link set up vcan0
+sudo ip link set up vcan1
+ip link show | grep -E "vcan|can"
+
+
+
+cd /opt/kernelmind/apex 
+source install/setup.zsh
+./bringup_RM.sh use_rviz:=false
